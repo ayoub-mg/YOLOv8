@@ -21,8 +21,8 @@ def load_model(model_path):
 
 
 def display_tracker_options():
-    display_tracker = st.radio("Display Tracker", ('Yes', 'No'))
-    is_display_tracker = True if display_tracker == 'Yes' else False
+    display_tracker = st.radio("Afficher le Tracker", ('Oui', 'Non'))
+    is_display_tracker = True if display_tracker == 'Oui' else False
     if is_display_tracker:
         tracker_type = st.radio("Tracker", ("bytetrack.yaml", "botsort.yaml"))
         return is_display_tracker, tracker_type
@@ -57,7 +57,7 @@ def _display_detected_frames(conf, model, st_frame, image, is_display_tracking=N
     # # Plot the detected objects on the video frame
     res_plotted = res[0].plot()
     st_frame.image(res_plotted,
-                   caption='Detected Video',
+                   caption='Video Détectée',
                    channels="BGR",
                    use_column_width=True
                    )
@@ -77,11 +77,11 @@ def play_youtube_video(conf, model):
     Raises:
         None
     """
-    source_youtube = st.sidebar.text_input("YouTube Video url")
+    source_youtube = st.sidebar.text_input("URL de la Vidéo Youtube")
 
     is_display_tracker, tracker = display_tracker_options()
 
-    if st.sidebar.button('Detect Objects'):
+    if st.sidebar.button('Objets Détectés'):
         try:
             video = pafy.new(source_youtube)
             best = video.getbest(preftype="mp4")
@@ -101,7 +101,7 @@ def play_youtube_video(conf, model):
                     vid_cap.release()
                     break
         except Exception as e:
-            st.sidebar.error("Error loading video: " + str(e))
+            st.sidebar.error("Erreur lors du chargement de la vidéo : " + str(e))
 
 
 def play_rtsp_stream(conf, model):
@@ -118,9 +118,9 @@ def play_rtsp_stream(conf, model):
     Raises:
         None
     """
-    source_rtsp = st.sidebar.text_input("rtsp stream url")
+    source_rtsp = st.sidebar.text_input("URL du Stream RTSP")
     is_display_tracker, tracker = display_tracker_options()
-    if st.sidebar.button('Detect Objects'):
+    if st.sidebar.button('Objets Détectés'):
         try:
             vid_cap = cv2.VideoCapture(source_rtsp)
             st_frame = st.empty()
@@ -138,7 +138,7 @@ def play_rtsp_stream(conf, model):
                     vid_cap.release()
                     break
         except Exception as e:
-            st.sidebar.error("Error loading RTSP stream: " + str(e))
+            st.sidebar.error("Erreur lors du chargement du Stream RTSP: " + str(e))
 
 
 def play_webcam(conf, model):
@@ -157,7 +157,7 @@ def play_webcam(conf, model):
     """
     source_webcam = settings.WEBCAM_PATH
     is_display_tracker, tracker = display_tracker_options()
-    if st.sidebar.button('Detect Objects'):
+    if st.sidebar.button('Objets Détectés'):
         try:
             vid_cap = cv2.VideoCapture(source_webcam)
             st_frame = st.empty()
@@ -175,7 +175,7 @@ def play_webcam(conf, model):
                     vid_cap.release()
                     break
         except Exception as e:
-            st.sidebar.error("Error loading video: " + str(e))
+            st.sidebar.error("Erreur lors du chargement de la Vidéo: " + str(e))
 
 
 def play_stored_video(conf, model):
@@ -193,7 +193,7 @@ def play_stored_video(conf, model):
         None
     """
     source_vid = st.sidebar.selectbox(
-        "Choose a video...", settings.VIDEOS_DICT.keys())
+        "Choisir une video...", settings.VIDEOS_DICT.keys())
 
     is_display_tracker, tracker = display_tracker_options()
 
@@ -202,7 +202,7 @@ def play_stored_video(conf, model):
     if video_bytes:
         st.video(video_bytes)
 
-    if st.sidebar.button('Detect Video Objects'):
+    if st.sidebar.button('Objets Détectés dans la Vidéo'):
         try:
             vid_cap = cv2.VideoCapture(
                 str(settings.VIDEOS_DICT.get(source_vid)))
@@ -221,4 +221,4 @@ def play_stored_video(conf, model):
                     vid_cap.release()
                     break
         except Exception as e:
-            st.sidebar.error("Error loading video: " + str(e))
+            st.sidebar.error("Erreur lors du chargement de la Vidéo: " + str(e))
