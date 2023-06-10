@@ -104,42 +104,6 @@ def play_youtube_video(conf, model):
             st.sidebar.error("Erreur lors du chargement de la vidéo : " + str(e))
 
 
-def play_rtsp_stream(conf, model):
-    """
-    Plays an rtsp stream. Detects Objects in real-time using the YOLOv8 object detection model.
-
-    Parameters:
-        conf: Confidence of YOLOv8 model.
-        model: An instance of the `YOLOv8` class containing the YOLOv8 model.
-
-    Returns:
-        None
-
-    Raises:
-        None
-    """
-    source_rtsp = st.sidebar.text_input("URL du Stream RTSP")
-    is_display_tracker, tracker = display_tracker_options()
-    if st.sidebar.button('Objets Détectés'):
-        try:
-            vid_cap = cv2.VideoCapture(source_rtsp)
-            st_frame = st.empty()
-            while (vid_cap.isOpened()):
-                success, image = vid_cap.read()
-                if success:
-                    _display_detected_frames(conf,
-                                             model,
-                                             st_frame,
-                                             image,
-                                             is_display_tracker,
-                                             tracker
-                                             )
-                else:
-                    vid_cap.release()
-                    break
-        except Exception as e:
-            st.sidebar.error("Erreur lors du chargement du Stream RTSP: " + str(e))
-
 
 def play_webcam(conf, model):
     """
