@@ -63,3 +63,4 @@ ultralytics==8.0.115
 urllib3==2.0.3
 validators==0.20.0
 zipp==3.15.0
+libgl1-mesa-glx
